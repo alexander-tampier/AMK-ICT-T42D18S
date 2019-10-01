@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>LECTURE TASK</h2>
+    <p>
+      Ask with for loop 3 different numbers from user. Then ask from user if he
+      wants to count them together, subtract, multiply or divide the numbers.
+      Use promp and alert windows.
+    </p>
+    <script>
+      /*
+          1) LECTURE TASK
+
+          Ask with for loop 3 different numbers from user. Then ask from user if he wants to count them together, subtract, multiply or divide the numbers. Use promp and alert windows.
+
+          Deadline 30.9 18:00
+      */
+
+      const askForNumbers = () => {
+        let userNumbers = [];
+
+        for (i = 0; i < 3; i++) {
+          userNumbers.push(prompt('Enter your number'));
+        }
+
+        return userNumbers;
+      };
+
+      window.addEventListener('DOMContentLoaded', event => {
+        let result;
+        let myNumbers = askForNumbers().map(v => parseInt(v, 10));
+
+        let answer = prompt(
+          'Do you want to count them together, subtract, multiply or divide the numbers?'
+        );
+
+        switch (answer) {
+          case 'count':
+            alert(myNumbers.reduce((a, b) => a + b, 0));
+            break;
+          case 'subtract':
+            alert(myNumbers.reduce((a, b) => a - b));
+            break;
+          case 'multiply':
+            alert(myNumbers.reduce((a, b) => a * b));
+            break;
+          case 'divide':
+            alert(myNumbers.reduce((a, b) => a / b));
+            break;
+          default:
+            break;
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>LECTURE TASK</h2>
+    <p>
+      Randomize one number between 1-30. Let user 5 time try to guess the
+      correct number. Inform about the number, and what round is going on Use
+      for-loop (not while or do-while)
+    </p>
+    <script>
+      /*
+        2) LECTURE TASK
+
+        Randomize one number between 1-30. Let user 5 time try
+        to guess the correct number. Inform about the number, and what round is going on
+        Use  for-loop (not while or do-while)
+      */
+
+      window.addEventListener('DOMContentLoaded', event => {
+        const attempts = 5;
+        let randomNr = Math.floor(Math.random() * 30 + 1);
+        let answer;
+
+        for (i = 0; i < attempts; i++) {
+          console.log(randomNr);
+          alert(`This is your ${i + 1}. attempt!`);
+          answer = prompt('Guess the generated Number from 1 to 30');
+
+          answer === randomNr
+            ? alert('You guessed the number')
+            : alert(`You still have ${attempts - (i + 1)} attempts`);
+        }
+      });
+    </script>
+  </body>
+</html>
