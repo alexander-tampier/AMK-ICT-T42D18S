@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"
+    ></script>
+
+    <title>Document</title>
+
+    <style>
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      td,
+      th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+
+      .additional-information > img {
+        height: 100px;
+      }
+
+      .focus {
+        background-color: #d6beb1;
+      }
+    </style>
+  </head>
+  <body>
+    <table id="studentTable"></table>
+
+    <script>
+      /**
+            Create a webpage where you have a list of students. When you click a name in the list, the application toggles to show or hide more information about the students. You can decide names and amount of information
+        */
+
+      const students = [
+        {
+          type: 'student',
+          firstName: 'Anna',
+          lastName: 'Aaltonen',
+          birthDate: '01/01/1990',
+          img:
+            'https://images.unsplash.com/photo-1554774853-b415df9eeb92?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
+        },
+        {
+          type: 'student',
+          firstName: 'David',
+          lastName: 'Davidsson',
+          birthDate: '01/01/1990',
+          img:
+            'https://images.unsplash.com/photo-1512353087810-25dfcd100962?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80'
+        },
+        {
+          type: 'student',
+          firstName: 'Eino',
+          lastName: 'Erkkilä',
+          birthDate: '01/01/1990',
+          img:
+            'https://images.unsplash.com/photo-1554774853-b415df9eeb92?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
+        },
+        {
+          type: 'student',
+          firstName: 'Henrik',
+          lastName: 'Henriksson',
+          birthDate: '01/01/1990',
+          img:
+            'https://images.unsplash.com/photo-1512353087810-25dfcd100962?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80'
+        },
+        {
+          type: 'student',
+          firstName: 'Kimmo',
+          lastName: 'Kivinen',
+          birthDate: '01/01/1990',
+          img:
+            'https://images.unsplash.com/photo-1554774853-b415df9eeb92?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
+        },
+        {
+          type: 'student',
+          firstName: 'Yrjö',
+          lastName: 'Koskenniemi',
+          birthDate: '01/01/1990',
+          img:
+            'https://images.unsplash.com/photo-1512353087810-25dfcd100962?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80'
+        },
+        {
+          type: 'student',
+          firstName: 'Laila',
+          lastName: 'Laitinen',
+          birthDate: '01/01/1990',
+          img:
+            'https://images.unsplash.com/photo-1554774853-b415df9eeb92?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
+        },
+        {
+          type: 'student',
+          firstName: 'Mikko',
+          lastName: 'Mikkonen',
+          birthDate: '01/01/1990',
+          img:
+            'https://images.unsplash.com/photo-1512353087810-25dfcd100962?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80'
+        }
+      ];
+
+      const drawData = (student, index) => {
+        let rowTag = $('<tr />');
+        // add tr element to the table element
+        $('#studentTable').append(rowTag);
+        let studentRow = $(
+          `<td class="student-${index}">+ ${student.lastName} ${student.firstName}</td>`
+        );
+        let divTag = $('<div />').attr({
+          class: 'additional-information'
+        });
+
+        let pTag = $('<p />').html(`${student.birthDate}`);
+        var img = $('<img />', {
+          src: student.img
+        });
+
+        divTag.append(img);
+        divTag.append(pTag);
+        studentRow.append(divTag);
+        rowTag.append(studentRow);
+
+        $('.additional-information').hide();
+
+        studentRow.click(function() {
+          let childEl = $(this).children('.additional-information');
+          $(this).toggleClass('focus');
+          childEl.toggle(500);
+        });
+      };
+
+      $(document).ready(function() {
+        students.forEach(drawData);
+      });
+    </script>
+  </body>
+</html>
