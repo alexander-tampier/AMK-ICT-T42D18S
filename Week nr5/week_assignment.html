@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <title>Takaisin osioon 'Week nr:5' - Week assignment</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        display: flex;
+        height: 100vh;
+        background: #ff9090;
+      }
+
+      .memory-game {
+        width: 450px;
+        height: 450px;
+        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+        background: #fffa62;
+        perspective: 1000px;
+      }
+
+      .memory-card {
+        font-family: FontAwesome;
+        width: calc(25% - 10px);
+        height: calc(33.333% - 10px);
+        margin: 5px;
+        position: relative;
+        transform: scale(1);
+        transform-style: preserve-3d;
+        transition: transform 0.5s;
+        box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+      }
+
+      .memory-card:active {
+        transform: scale(0.97);
+        transition: transform 0.2s;
+      }
+
+      .memory-card.flip {
+        transform: rotateY(180deg);
+      }
+
+      .front,
+      .back {
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        position: absolute;
+        border-radius: 5px;
+        font-size: 60px;
+        color: #fff;
+        text-align: center;
+        backface-visibility: hidden;
+      }
+
+      .front {
+        background: #89c4ff;
+        transform: rotateY(180deg);
+      }
+
+      .back {
+        background: #ffcf7f;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="memory-game"></div>
+    <script>
+      let symbols = [
+        'bicycle',
+        'bicycle',
+        'leaf',
+        'leaf',
+        'cube',
+        'cube',
+        'anchor',
+        'anchor',
+        'bolt',
+        'bolt',
+        'diamond',
+        'diamond'
+      ];
+
+      let hasFirstFlipped = false;
+      let lockBoard = false;
+      let firstCard = null;
+      let secondCard = null;
+      let counter = 0;
+
+      function flipCard() {
+        let $this = $(this);
+
+        // board is locked until a new set of cards can be uncovered
+        if (lockBoard) return;
+        // Issue Case - firstCard can't be clicked twice so that we will prevent removing the eventlister from one card which is clicked twice
+        if ($this.is(firstCard)) return;
+
+        if (!$this.hasClass('flip')) {
+          $this.addClass('flip');
+          counter++;
+        }
+
+        // no card has flipped before, save the reference from the first clicked card
+        if (!hasFirstFlipped) {
+          hasFirstFlipped = true;
+          firstCard = $this;
+
+          return;
+        }
+
+        // a second card is clicked, also save the reference and check if it is a match
+        hasFirstFlipped = false;
+        secondCard = $this;
+
+        // check if cards match?
+        isMatch(firstCard, secondCard) ? disableCards() : unflipCard();
+
+        if (isOver()) {
+          alert(`You have won with ${counter} Clicks`);
+        }
+      }
+
+      function isOver() {
+        return $('.memory-game').find('.memory-card.flip').length === 12;
+      }
+
+      function disableCards() {
+        firstCard.unbind('click');
+        secondCard.unbind('click');
+      }
+
+      function unflipCard() {
+        lockBoard = true;
+
+        setTimeout(() => {
+          firstCard.removeClass('flip');
+          secondCard.removeClass('flip');
+          resetBoard();
+        }, 1500);
+      }
+
+      function isMatch(firstCard, secondCard) {
+        return (
+          firstCard.children('.front').attr('name') ===
+          secondCard.children('.front').attr('name')
+        );
+      }
+
+      function resetBoard() {
+        hasFirstFlipped = false;
+        lockBoard = false;
+        firstCard = null;
+        secondCard = null;
+      }
+
+      $(document).ready(function() {
+        const memoryGame = $('.memory-game');
+        memoryGame.empty();
+
+        for (i = 0; i < symbols.length; i++) {
+          let memoryCard = $('<div class="memory-card" />');
+          let frontCard = $(`<span class="front" name="${symbols[i]}" />`);
+          let backCard = $('<span class="back" />');
+          let faviconQuestion = $('<i class="fas fa-question" />');
+
+          memoryGame.append(memoryCard);
+          memoryCard.append(frontCard);
+          memoryCard.append(backCard);
+          backCard.append(faviconQuestion);
+          frontCard.append($(`<i class="fa fa-${symbols[i]}">`));
+        }
+
+        memoryGame.find('.memory-card').bind('click', flipCard);
+      });
+
+      // Shuffle the Cards - http://stackoverflow.com/a/2450976
+      (array => {
+        var currentIndex = array.length,
+          temporaryValue,
+          randomIndex;
+
+        while (0 !== currentIndex) {
+          randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex -= 1;
+          temporaryValue = array[currentIndex];
+          array[currentIndex] = array[randomIndex];
+          array[randomIndex] = temporaryValue;
+        }
+
+        symbols = array;
+      })(symbols);
+    </script>
+  </body>
+</html>
