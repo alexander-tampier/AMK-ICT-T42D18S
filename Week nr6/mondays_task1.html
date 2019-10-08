@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="https://unpkg.com/vue"></script>
+    <title>Week Nr6. - Monday task1</title>
+    <style>
+      #app {
+        font-family: 'Avenir', Arial, Helvetica, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-align: left;
+        color: #2c3e50;
+        margin-top: 60px;
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+      It generates an entry point #app where all the code from vue.js is injected
+     -->
+    <div id="app">
+      <!-- With curly bracets it is possible to inject the code from the Vue instance data object -->
+      <h1>{{ message }}</h1>
+      <ul>
+        <!-- In Vue.js it is possible to iterate through an array of the data object to display it as Component. It shows every entry from the array -->
+        <li v-for="quote in quotes">
+          <!-- The quote-item is a component where a prop can be given as a parameter for the component, here the quote parameter is given to the quote-item component to display and render the item  -->
+          <quote-item :quote="quote"></quote-item>
+        </li>
+      </ul>
+      <button @click="fetchQuote">Generate me a Quote!</button>
+    </div>
+    <script>
+      /**
+       * A new Vue Instance is created
+       */
+      new Vue({
+        // It defines the entry point for the vue.js application for the dependency injection
+        el: '#app',
+        // the data attribute is used to define all of the important data which should be displayed and rendered in the frontend
+        data: {
+          message: 'Monday task 3: Study and do an example',
+          quotes: [
+            {
+              content:
+                'There are no failures. Just experiences and your reactions to them.',
+              author: 'Tom Krause'
+            }
+          ]
+        },
+        // Methods can be defined and called in the html code
+        methods: {
+          // the fetchquote method fetches a random quote and relates it to the data.quotes attribute
+          fetchQuote() {
+            fetch('https://api.quotable.io/random', {
+              method: 'GET',
+              headers: {
+                Accept: 'application/json'
+              }
+            })
+              .then(res => res.json())
+              .then(json => {
+                this.quotes[0].content = json.content;
+                this.quotes[0].author = json.author;
+              });
+          }
+        },
+        // Components are used to define a clean MVC structure, with components things can be rendered and displayed seperately. Components are also reusable
+        components: {
+          QuoteItem: {
+            name: 'quote-item',
+            // Define the template for the html code which is injected
+            template: '<div><p>{{ quote.content }}</p></div>',
+            // receive the given parameter from the component in the html code
+            props: ['quote']
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
