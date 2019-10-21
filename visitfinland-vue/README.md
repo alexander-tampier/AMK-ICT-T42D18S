@@ -1,23 +1,35 @@
 # visitfinland-vue
 
+## Previewing Locally
+
+```
+npm install -g serve
+# -s flag means serve it in Single-Page Application mode
+# which deals with the routing problem below
+serve -s dist
+```
+
 ## Project setup
+
 ```
 npm install
 ```
 
 ### Compiles and hot-reloads for development
+
 ```
 npm run serve
 ```
 
 ### Compiles and minifies for production
+
 ```
 npm run build
 ```
 
 ### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
 
+See [Configuration Reference](https://cli.vuejs.org/config/).
 
 Final assignment
 Application design and development is 15 credits course. Browser side programming (html, css, js) has been half of this course (50%). This assignment is part of that 50% of the total grade of this course. Later part of the course is carried out after Databases by Yrjö Koskenniemi.
